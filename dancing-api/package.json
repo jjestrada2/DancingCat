@@ -1,0 +1,23 @@
+{
+  "name": "dancing-api",
+  "version": "1.0.0",
+  "description": "API to interact with data and create qrcodes",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjestrada2/DancingCat.git"
+  },
+  "author": "Mina E.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjestrada2/DancingCat/issues"
+  },
+  "homepage": "https://github.com/jjestrada2/DancingCat#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "qrcode": "^1.5.3"
+  }
+}
