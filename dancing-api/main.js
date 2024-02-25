@@ -34,12 +34,14 @@ app.get('/search', (req,res)=>{
   res.json(results);
 })
 
-app.get('/QRcode',async (req,res)=>{
+app.get('/qrcode',async (req,res)=>{
   const catid = req.query.catid
       try{
         const qrcode = await generateQRCode(catid)
+        const buffer = Buffer.from(qrcode.replace(/^data:image\/png;base64,/, ''), 'base64');
+
         res.contentType('image/png')
-        res.send(qrcode)
+        res.send(buffer)
       }
       catch (err){
         console.error(err);
@@ -56,7 +58,6 @@ app.listen(port, () => {
 
 
 function generateQRCode(id) {
-  console.log(id)
   return new Promise((resolve, reject) => {
     qrcode.toDataURL(id, (err, url) => {
       if (err) {
