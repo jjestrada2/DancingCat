@@ -1,4 +1,5 @@
 const express = require('express');
+const qrcode = require('qrcode');
 const app = express();
 const port = 3000; // Define the port number
 
