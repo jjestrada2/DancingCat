@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 // import { useClient } from 'next/data-client';
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 
 const Card = ({ catName, description, link, imageSrc }) => (
   <a
@@ -30,12 +31,10 @@ const Card = ({ catName, description, link, imageSrc }) => (
 
 
 export default function Home() {
-  // useClient(); 
-  // const [searchInput, setSearchInput] = useState(''); 
-  // const handleSearchChange = (event) => {
-  //   setSearchInput(event.target.value);
-  // };
-  // const filteredCards = cards.filter(card => card.catName.toLowerCase().includes(searchInput.toLowerCase()));
+  const [searchInput, setSearchInput] = useState(''); 
+  const handleSearchChange = (event) => {
+    setSearchInput(event.target.value);
+  };
 
   const cards = [
     { catName: 'Cat 1', description: 'Description 1', link: '/catProfile', imageSrc: "/cat_img.jpeg" },
@@ -44,6 +43,7 @@ export default function Home() {
     { catName: 'Cat 4', description: 'Description 4', link: '/catProfile', imageSrc: "/cat_img.jpeg" },
     { catName: 'Cat 5', description: 'Description 5', link: '/catProfile', imageSrc: "/cat_img.jpeg" },
   ];
+  const filteredCards = cards.filter(card => card.catName.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
     <main className="flex-1">
@@ -52,13 +52,13 @@ export default function Home() {
       <input
         type="text"
         placeholder="Search Cat..."
-        // value={searchInput}
-        // onChange={handleSearchChange}
+        value={searchInput}
+        onChange={handleSearchChange}
         className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-gray-500 mb-4" 
         style={{ width: "500px",  marginTop: "30px", marginLeft: "60px" }}
       />
       <div className="flex flex-wrap" style={{ marginLeft: "50px" }}>
-        {cards.map( card => (<Card
+        {filteredCards.map( card => (<Card
           key={card.catName}
           catName={card.catName}
           description={card.description}
