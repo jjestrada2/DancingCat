@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import React, { useState, useEffect } from 'react';
 // Card component
 const Card = ({ title, description, link, imageSrc }) => (
   <a
@@ -24,6 +26,38 @@ const Card = ({ title, description, link, imageSrc }) => (
 );
 
 export default function Home() {
+
+    const [data, setData] = useState([]);
+
+    const getAnimalDetails = (token, tokenHash, animalId) => {
+    console.log("test");
+    const req = {
+    token: token,
+    tokenHash: tokenHash,
+    objectType: "animals",
+    objectAction: "view",
+    values: [{ "animalID": animalId }],
+    fields: ["animalID", "animalName", "animalBreed", "animalHighlightOrder"],
+    }
+    fetch("https://api.rescuegroups.org/http/v2.json", {
+    method: "Post",
+    body: JSON.stringify(req)
+    }).then(response => response.json(response)).then((result) => { setData(result.data[0]) })
+    }
+
+    useEffect(() => {
+        const auth_req = {
+          action: "login",
+          username: "ann",
+          password: "r0cket",
+          accountNumber: 8960,
+        }
+        fetch("https://api.rescuegroups.org/http/v2.json", {
+          method: "Post",
+          body: JSON.stringify(auth_req)
+        }).then(response => response.json()).then((result) => { getAnimalDetails(result.data.token,result.data.tokenHash, 14627885) })
+      }, [])
+
   return (
     <main className="flex-1">
       {/* <div className="flex-1 fixed bg-black" style={{ width: "100%", height: "100%", zIndex: -1, opacity: 0.5 }} /> */}
@@ -57,11 +91,11 @@ export default function Home() {
         <div className="flex">
         <img src="/cat_img.jpeg" className="w-1/4 pl-4" style={{padding:"40px"}}/>
         <div style={{padding:"40px"}}>
-            <h1 className="center font-bold" style={{ fontSize: 68 }}>CAT CLONE</h1>
-            <h4 className="center font-bold" style={{ fontSize: 25 }}>Name:</h4>
-            <h4 className="center font-bold" style={{ fontSize: 25 }}>Breed:</h4>
-            <h4 className="center font-bold" style={{ fontSize: 25 }}>Sex:</h4>
-            <h4 className="center font-bold" style={{ fontSize: 25 }}>Birthdate:</h4>
+            <h1 className="center font-bold" style={{ fontSize: 68 }}>{data.animalName}</h1>
+            <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalColor}</h4>
+            <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalBreed}</h4>
+            <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalSex}</h4>
+            <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalBirthdate}</h4>
         </div>
         </div>
           
