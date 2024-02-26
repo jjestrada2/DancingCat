@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
+import {useSearchParams} from 'next/navigation';
 // Card component
 const Card = ({ title, description, link, imageSrc }) => (
     <a
@@ -29,6 +30,8 @@ export default function Home() {
 
     const [data, setData] = useState();
     const [animalPicture, setAnimalPicture] = useState("");
+    const searchParams = useSearchParams()
+    const search = searchParams.get('catId')
 
     const getAnimalDetails = (token, tokenHash, animalId) => {
         console.log("test");
@@ -59,12 +62,10 @@ export default function Home() {
         fetch("https://api.rescuegroups.org/http/v2.json", {
             method: "Post",
             body: JSON.stringify(auth_req)
-        }).then(response => response.json()).then((result) => { getAnimalDetails(result.data.token, result.data.tokenHash, 14627885) })
+        }).then(response => response.json()).then((result) => { getAnimalDetails(result.data.token, result.data.tokenHash, search) })
     }, [])
 
     console.log(data)
-
-    // const animalPicture = (data.animalPictures.length > 0 ? data.animalPictures[0] : data.card.animalPictures)
 
     return (
         data && (
@@ -101,8 +102,8 @@ export default function Home() {
                 <img src={animalPicture} className="w-1/4 pl-4" style={{ padding: "40px" }} />
                 <div style={{ padding: "40px" }}>
                     <h1 className="center font-bold" style={{ fontSize: 68 }}>{data.animalName}</h1>
-                    <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalColor}</h4>
                     <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalBreed}</h4>
+                    <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalColor}</h4>
                     <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalSex}</h4>
                     <h4 className="center font-bold" style={{ fontSize: 25 }}>{data.animalBirthdate}</h4>
                 </div>
