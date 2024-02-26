@@ -157,7 +157,7 @@ export default function Home() {
       />
       <div className="flex flex-wrap" style={{ marginLeft: "50px" }}>
         {data.map(card => {
-          console.log(card.animalPictures[0]?.urlInsecureFullsize)
+          // console.log(card.animalPictures[0]?.urlInsecureFullsize)
           return (card.animalPictures.length > 0 ? (<Card
             key={card.animalName}
             catName={card.animalName}
