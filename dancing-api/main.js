@@ -18,6 +18,10 @@ for (let i = 1; i <= 20; i++) {
 app.get('/search', (req,res)=>{
   const searchterm = req.query.searchterm
   const results = []
+  const MAX_RESULT_COUNT = 10
+  let result_count = 0
+
+  if(!searchterm)searchterm=''
 
   for(let id of Object.keys(mockdatabase)){
     const cat = mockdatabase[id];
@@ -27,11 +31,22 @@ app.get('/search', (req,res)=>{
       cat.color.toLowerCase().includes(searchterm.toLowerCase()) ||
       id == parseInt(searchterm)
     ) {
+      result_count +=1
       results.push(cat);
+    }
+
+    if(MAX_RESULT_COUNT == result_count){
+      break
     }
   }
 
   res.json(results);
+})
+
+app.get('/getcat', (req,res)=>{
+  let catid = req.query.catid
+
+  res.json(mockdatabase[catid])
 })
 
 app.get('/qrcode',async (req,res)=>{
