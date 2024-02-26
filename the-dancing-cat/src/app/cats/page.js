@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 // import { useClient } from 'next/data-client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Card = ({ catName, description, link, imageSrc }) => (
   <a
@@ -35,6 +35,79 @@ export default function Home() {
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value);
   };
+  const [data, setData] = useState([]);
+
+  // const getAnimalDetails = (token, tokenHash, animalId) => {
+  //   console.log("test");
+  //   const req = {
+  //     token: token,
+  //     tokenHash: tokenHash,
+  //     objectType: "animals",
+  //     objectAction: "view",
+  //     values: [{ "animalID": animalId }],
+  //     fields: ["animalID", "animalName", "animalBreed", "animalHighlightOrder"],
+  //   }
+  //   fetch("https://api.rescuegroups.org/http/v2.json", {
+  //     method: "Post",
+  //     body: JSON.stringify(req)
+  //   }).then(response => response.json(response)).then((result) => { console.log(result) })
+  // }
+  const getData = ({ token, tokenHash }) => {
+    const req = {
+      token: token,
+      tokenHash: tokenHash,
+      objectType: "animals",
+      objectAction: "search",
+      search: {
+        resultStart: "0",
+        resultLimit: "30",
+        resultSort: "animalCreatedDate",
+        resultOrder: "asc",
+        filters: [
+          {
+            fieldName: "animalStatus",
+            operation: "equals",
+            criteria: "Available"
+          },
+          {
+            fieldName: "animalSpecies",
+            operation: "equals",
+            criteria: "Cat"
+          }
+        ],
+        filterProcessing: "1 AND 2",
+        fields: ["animalID",
+          "animalName",
+          "animalSpecies",
+          "animalSex",
+          "animalStatus",
+          "animalBreed",
+          "animalColor",
+          "animalAltered",
+          "animalBirthdate",
+          "animalPictures",
+          "animalRescueID",
+          "descriptionText"],
+      },
+    }
+    fetch("https://api.rescuegroups.org/http/v2.json", {
+      method: "Post",
+      body: JSON.stringify(req)
+    }).then(response => response.json()).then((result) => { setData(result.data) })
+  }
+
+  useEffect(() => {
+    const auth_req = {
+      action: "login",
+      username: "ann",
+      password: "r0cket",
+      accountNumber: 8960,
+    }
+    fetch("https://api.rescuegroups.org/http/v2.json", {
+      method: "Post",
+      body: JSON.stringify(auth_req)
+    }).then(response => response.json()).then((result) => { getData(result.data) })
+  }, [])
 
   const cards = [
     { catName: 'Cat 1', description: 'Description 1', link: '/catProfile', imageSrc: "/cat_img.jpeg" },
