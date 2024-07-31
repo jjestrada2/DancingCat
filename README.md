@@ -78,6 +78,9 @@ This project is licensed under the MIT License - see the [LICENSE](https://choos
 ## Credits🔥
 
 - [Juan Estrada](https://github.com/jjestrada2) - Developer of this project.
+- [Madeline](https://github.com/MadelineDarmawangsa) - Developer of this project.
+- [Mina](https://github.com/MinaRashad) - Developer of this project.
+- [Viral](https://github.com/ViralDam) - Developer of this project.
 
 ## Contact🦻
 
